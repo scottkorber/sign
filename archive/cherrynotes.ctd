@@ -1,0 +1,1550 @@
+<?xml version="1.0" ?><cherrytree><node name="Apache" prog_lang="custom-colors" readonly="False" tags="" unique_id="1"><rich_text>#IF SERVICE or init script doesnt restart apache use this
+apachectl start or /usr/local/apache/bin/apachectl start
+
+cat /usr/local/apache/conf/httpd.conf |grep Max
+ps aux | grep httpd | wc -l
+cat /usr/local/apache/conf/httpd.conf |grep Keep
+cat /usr/local/apache/conf/httpd.conf |grep Timeout
+   
+grep 'Max\|ServerL\|Keep' /usr/local/apache/conf/httpd.conf||echo no Apache opts
+   
+grep MaxC /usr/local/apache/logs/error_log |grep `date +%b` |tail
+   --------------------------------------------------------
+</rich_text><rich_text style="italic" underline="single" weight="heavy">DOS:</rich_text><rich_text>   
+
+OneLiner;
+
+echo &quot;Total Posts&quot; ; grep `date +%d`/`date +%b`/`date +%Y` /home/domlogs/*|grep POST|awk '{print $1}'|cut -d':' -f1|sort |uniq -c|sort -nr|head -n5 ; echo &quot;With IPs&quot; ; grep `date +%d`/`date +%b`/`date +%Y` /home/domlogs/*|grep POST|awk '{print $1}'|sort |uniq -c|sort -nr|head -n5
+
+
+#Grep Logs
+grep `date +%d`/`date +%b`/`date +%Y` /home/domlogs/*|grep POST|awk '{print $1}'|cut -d':' -f1|sort |uniq -c|sort -nr|head -n5
+or
+grep `date +%d`/`date +%b`/`date +%Y` /var/www/vhosts/*/statistics/logs/access*|grep POST|awk '{print $1}'|cut -d':' -f1|sort |uniq -c|sort -nr|head -n5
+^^Plesk
+
+
+#Show Ip too
+grep `date +%d`/`date +%b`/`date +%Y` /home/domlogs/*|grep POST|awk '{print $1}'|sort |uniq -c|sort -nr|head -n5
+or
+grep `date +%d`/`date +%b`/`date +%Y` /var/www/vhosts/*/statistics/logs/access*|grep POST|awk '{print $1}'|sort |uniq -c|sort -nr|head -n5
+
+   
+</rich_text><rich_text style="italic" weight="heavy">CHECK DOMLOGS FOR HIT SITES:</rich_text><rich_text>
+grep -c `date +%d`/`date +%b`/`date +%Y` /usr/local/apache/domlogs/*|sort -t: -nr -k 2|head
+
+</rich_text><rich_text style="italic" weight="heavy">PRESENT:</rich_text><rich_text>
+/usr/bin/lynx -dump -width 500  http://127.0.0.1/whm-server-status
+   
+netstat -tn 2&gt;/dev/null|grep ':80 '|awk '{print $5}'|cut -f1 -d:|grep -E '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}'|sort|uniq -c|sort -rn|head   
+   
+netstat -tn 2&gt;/dev/null | grep ':80 ' | awk '{print $5}' | cut -f1 -d: | sort | uniq -c | sort -rn | head
+or     
+netstat -tn 2&gt;/dev/null | awk '{print $5}' |sed -e 's/::ffff://' |cut -d: -f1 | sort | uniq -c | sort -nr |head
+   
+
+</rich_text><rich_text style="italic" weight="heavy">PAST:</rich_text><rich_text>
+grep &quot;`date +%d`/`date +%b`/`date +%Y`:15:2&quot; /usr/local/apache/domlogs/</rich_text><rich_text style="italic">www.fqdn.com</rich_text><rich_text>|awk '{print $1&quot; &quot;$11}'|sort|uniq -c|sort -nr|head
+   
+grep &quot;`date +%d`/`date +%b`/`date +%Y`&quot; /usr/local/apache/domlogs/</rich_text><rich_text style="italic">www.fqdn.com</rich_text><rich_text>|awk '{print $1}'|sort|uniq -c|sort -nr|head
+
+</rich_text><rich_text style="italic" weight="heavy">GREPPING LOGS:</rich_text><rich_text>
+grep &quot;4/Aug/2014:&quot; /home/domlogs/*|grep POST|awk '{print $1}'|cut -d':' -f1|sort |uniq -c|sort -n|tail -n5
+
+grep &quot;4/Aug/2014:&quot; /home/domlogs/*|grep POST|awk '{print $1}'|cut -d':' -f2|sort |uniq -c|sort -n|tail -n5
+   
+      grep &quot;09/Mar/2014:&quot; /home/domlogs/internetuptimemonitor.agamblersguide.com|grep POST|awk '{print $1}'|sort |uniq -c|sort -n|tail -n5
+      
+grep &quot;09/Mar/2014:&quot; /home/domlogs/internetuptimemonitor.agamblersguide.com|grep POST|awk '{print $7}'|sort |uniq -c|sort -n|tail -n5   
+      
+grep -s wp-login.php /usr/local/apache/domlogs/* | grep POST | grep &quot;$(date +&quot;%d/%b/%Y&quot;)&quot; | cut -d: -f1 | sort| uniq -c | sort -nr | head -25
+   
+   
+   
+   
+   
+   find /usr/local/apache/domlogs/*/ -type f|grep -v -E $'(_|-)log|.gz'|xargs -i tail -5000 {}|grep $(date +%d/%b/%Y):15:5 |awk '{print $1, $11}'|sort |uniq -c |sort -rn|head
+   
+   ------------------------------------------------------
+   
+</rich_text><rich_text style="italic" weight="heavy">CHECK MPM:</rich_text><rich_text>
+
+/usr/local/apache/bin/httpd -V | grep mpm
+
+On Core-Managed and Plesk boxes, the command is as follows:
+
+/usr/sbin/httpd -V | grep mpm
+
+   -------------------------------------------------------
+
+</rich_text><rich_text style="italic" weight="heavy">PIPED LOGGING:</rich_text><rich_text>
+   
+To see if traditional logging is enabled, check your Apache error log for messages that show Apache being restarted around every 2 hours:
+
+grep -i graceful /usr/local/apache/logs/error_log
+
+WHM -&gt; Apache Configuration -&gt; Piped Log Configuration -&gt; Enable Piped Apache Logs  
+   
+   
+   
+</rich_text><rich_text style="italic" weight="heavy">REBUILD &amp; DISTILL:</rich_text><rich_text>
+   /scripts/rebuildhttpdconf 
+   /usr/local/cpanel/bin/apache_conf_distiller --update 
+   /usr/local/cpanel/bin/build_apache_conf </rich_text><node name="Apache Opts" prog_lang="custom-colors" readonly="False" tags="" unique_id="2"><rich_text>Your Apache and MySQL configuration was set to the default settings
+
+This configuration is not ideal for any hardware configuration that we host.
+The following settings have been updated, and Apache was restarted so the
+changes could be applied:
+
+   
+   
+   For VPS, Vservers, and very old hardware
+
+KeepAlive On
+MaxKeepAliveRequests 50
+KeepAliveTimeout 5
+&lt;IfModule prefork.c&gt;
+    MinSpareServers 3
+    MaxSpareServers 6
+    StartServers 3
+    MaxClients 30
+    MaxRequestsPerChild 300
+&lt;/IfModule&gt;
+&lt;IfModule worker.c&gt;
+    ServerLimit 2
+    StartServers 1
+    MinSpareThreads 25
+    MaxSpareThreads 75
+    ThreadsPerChild 25
+    MaxClients 50
+    MaxRequestsPerChild 400
+&lt;/IfModule&gt;
+Timeout 30
+
+For Storm and Dedicated Servers with 1G of RAM
+
+KeepAlive On
+MaxKeepAliveRequests 100
+KeepAliveTimeout 5
+&lt;IfModule prefork.c&gt;
+    StartServers 5
+    ServerLimit 50
+    MinSpareServers 5
+    MaxSpareServers 10
+    MaxClients 50
+    MaxRequestsPerChild 400
+&lt;/IfModule&gt;
+&lt;IfModule worker.c&gt;
+    ServerLimit 2
+    StartServers 1
+    MinSpareThreads 25
+    MaxSpareThreads 50
+    ThreadsPerChild 25
+    MaxClients 50
+    MaxRequestsPerChild 400
+&lt;/IfModule&gt;
+Timeout 50
+
+
+For Storm and Dedicated Servers with 2G of RAM
+
+KeepAlive On
+MaxKeepAliveRequests 100
+KeepAliveTimeout 5
+&lt;IfModule prefork.c&gt;
+    StartServers 5
+    ServerLimit 75
+    MinSpareServers 5
+    MaxSpareServers 10
+    MaxClients 75
+    MaxRequestsPerChild 600
+&lt;/IfModule&gt;
+&lt;IfModule worker.c&gt;
+    ServerLimit 3
+    StartServers 2
+    MinSpareThreads 25
+    MaxSpareThreads 75
+    ThreadsPerChild 25
+    MaxClients 75
+    MaxRequestsPerChild 600
+&lt;/IfModule&gt;
+Timeout 50
+
+
+For Storm and Dedicated Servers with 3G of RAM
+
+KeepAlive On
+MaxKeepAliveRequests 150
+KeepAliveTimeout 5
+&lt;IfModule prefork.c&gt;
+    StartServers 10
+    ServerLimit 75
+    MinSpareServers 10
+    MaxSpareServers 20
+    MaxClients 75
+    MaxRequestsPerChild 600
+&lt;/IfModule&gt;
+&lt;IfModule worker.c&gt;
+    ServerLimit 3
+    StartServers 2
+    MinSpareThreads 25
+    MaxSpareThreads 75
+    ThreadsPerChild 25
+    MaxClients 75
+    MaxRequestsPerChild 600
+&lt;/IfModule&gt;
+Timeout 50
+
+For Storm and Dedicated Servers with between 4G and 6G of RAM
+
+KeepAlive On
+MaxKeepAliveRequests 150
+KeepAliveTimeout 5
+&lt;IfModule prefork.c&gt;
+    StartServers 10
+    ServerLimit 100
+    MinSpareServers 10
+    MaxSpareServers 20
+    MaxClients 100
+    MaxRequestsPerChild 800
+&lt;/IfModule&gt;
+&lt;IfModule worker.c&gt;
+    ServerLimit 4
+    StartServers 2
+    MinSpareThreads 25
+    MaxSpareThreads 75
+    ThreadsPerChild 25
+    MaxClients 100
+    MaxRequestsPerChild 800
+&lt;/IfModule&gt;
+Timeout 50
+
+For Storm and Dedicated Servers with between 7G and 9G of RAM
+
+KeepAlive On
+MaxKeepAliveRequests 200
+KeepAliveTimeout 5
+&lt;IfModule prefork.c&gt;
+    StartServers 20
+    ServerLimit 125
+    MinSpareServers 20
+    MaxSpareServers 40
+    MaxClients 125
+    MaxRequestsPerChild 1000
+&lt;/IfModule&gt;
+&lt;IfModule worker.c&gt;
+    ServerLimit 5
+    StartServers 3
+    MinSpareThreads 25
+    MaxSpareThreads 75
+    ThreadsPerChild 25
+    MaxClients 125
+    MaxRequestsPerChild 1000
+&lt;/IfModule&gt;
+Timeout 60
+
+For Storm and Dedicated Server with between 10G and 16G of RAM
+
+KeepAlive On
+MaxKeepAliveRequests 150
+KeepAliveTimeout 5
+&lt;IfModule prefork.c&gt;
+    StartServers 20
+    MinSpareServers 20
+    MaxSpareServers 40
+    ServerLimit 400
+    MaxClients 400
+    MaxRequestsPerChild 1000
+&lt;/IfModule&gt;
+&lt;IfModule worker.c&gt;
+    ServerLimit 16
+    StartServers 5
+    MinSpareThreads 25
+    MaxSpareThreads 75
+    ThreadsPerChild 25
+    MaxClients 400
+    MaxRequestsPerChild 1000
+&lt;/IfModule&gt;
+Timeout 300
+
+For Storm and Dedicated Server with between 16G and 32G of RAM
+
+KeepAlive On
+MaxKeepAliveRequests 150
+KeepAliveTimeout 5
+&lt;IfModule prefork.c&gt;
+    StartServers 20
+    MinSpareServers 20
+    MaxSpareServers 40
+    ServerLimit 450
+    MaxClients 450
+    MaxRequestsPerChild 1000
+&lt;/IfModule&gt;
+&lt;IfModule worker.c&gt;
+    ServerLimit 18
+    StartServers 8
+    MinSpareThreads 25
+    MaxSpareThreads 75
+    ThreadsPerChild 25
+    MaxClients 450
+    MaxRequestsPerChild 1000
+&lt;/IfModule&gt;
+Timeout 300
+
+For Storm and Dedicated Server with between 32G and 48G of RAM
+
+KeepAlive On
+MaxKeepAliveRequests 150
+KeepAliveTimeout 5
+&lt;IfModule prefork.c&gt;
+    StartServers 20
+    MinSpareServers 20
+    MaxSpareServers 40
+    ServerLimit 550
+    MaxClients 550
+    MaxRequestsPerChild 1000
+&lt;/IfModule&gt;
+&lt;IfModule worker.c&gt;
+    ServerLimit 22
+    StartServers 10
+    MinSpareThreads 25
+    MaxSpareThreads 75
+    ThreadsPerChild 25
+    MaxClients 550
+    MaxRequestsPerChild 1000
+&lt;/IfModule&gt;
+Timeout 300
+
+For Storm and Dedicated Server with more than 48G of RAM
+
+KeepAlive On
+MaxKeepAliveRequests 150
+KeepAliveTimeout 5
+&lt;IfModule prefork.c&gt;
+    StartServers 20
+    MinSpareServers 20
+    MaxSpareServers 40
+    ServerLimit 750
+    MaxClients 750
+    MaxRequestsPerChild 1000
+&lt;/IfModule&gt;
+&lt;IfModule worker.c&gt;
+    ServerLimit 30
+    StartServers 15
+    MinSpareThreads 25
+    MaxSpareThreads 75
+    ThreadsPerChild 25
+    MaxClients 750
+    MaxRequestsPerChild 1000
+&lt;/IfModule&gt;
+Timeout 300
+</rich_text></node><node name="apache wat" prog_lang="custom-colors" readonly="False" tags="" unique_id="24"><rich_text>root@host [~]# date; grep 72.52.228.8 /usr/local/apache/domlogs/capitalladders.com | grep &quot;17/Apr/2014&quot; | grep GET | wc -l; sleep 30; date; grep 72.52.228.8 /usr/local/apache/domlogs/capitalladders.com | grep &quot;17/Apr/2014&quot; | grep GET | wc -l
+Thu Apr 17 05:26:37 EDT 2014
+16576
+Thu Apr 17 05:27:07 EDT 2014
+16576
+root@host [~]# grep 72.52.228.8 /usr/local/apache/domlogs/capitalladders.com | grep &quot;17/Apr/2014&quot; | grep GET | awk '{print $7, $8}'|sort| uniq -c | sort -nr
+   7790 /sites/all/modules/capitalladders/stock_block.html HTTP/1.0&quot;
+   7262 /sites/all/modules/capitalladders/stock_block_sidebar.html HTTP/1.0&quot;
+    782 /sites/all/modules/capitalladders/mini_calendar_block.html HTTP/1.0&quot;
+    352 /sites/all/modules/capitalladders/stock_block.php HTTP/1.0&quot;
+    334 /sites/all/modules/capitalladders/stock_block_sidebar.php HTTP/1.0&quot;
+     40 /sites/all/modules/capitalladders/stock_block_cache.php HTTP/1.0&quot;
+      5 /sites/all/modules/capitalladders/mini_calendar_block.php HTTP/1.0&quot;
+      5 /sites/all/modules/capitalladders/economic_calendar_page.php HTTP/1.0&quot;
+      5 /sites/all/modules/capitalladders/economic_calendar_page_block.php HTTP/1.0&quot;
+      1 /sites/all/modules/capitalladders/economic_calendar_page.html HTTP/1.0&quot;
+</rich_text></node></node><node name="NOTE" prog_lang="custom-colors" readonly="False" tags="" unique_id="27"><rich_text>smtp down skip smtp post
+
+
+echo &quot;10.20.9.0/24&quot;&gt;&gt; /etc/skipsmtpcheckhosts; echo &quot;10.30.9.0/24&quot; &gt;&gt; /etc/skipsmtpcheckhosts; echo &quot;10.40.11.0/28&quot; &gt;&gt; /etc/skipsmtpcheckhosts; echo &quot;10.50.9.0/27&quot; &gt;&gt; /etc/skipsmtpcheckhosts; /scripts/restartsrv_exim
+
+
+
+
+grep &quot;`date +%d`/`date +%b`/`date +%Y`&quot; /usr/local/apache/domlogs/*|grep 173.95.163.227|awk '{print $7}'|sort|uniq -c|sort -nr|head
+
+
+was reporting ssh down in nagios but corrected itself.
+
+Nagios too behind to further investigate.
+
+Shell Shock Test
+################
+cd /tmp; rm -f /tmp/echo; env 'x=() { (a)=&gt;\' bash -c &quot;echo date&quot;; cat /tmp/echo
+################
+
+The following will show if its vulnerable;
+
+bash: x: line 1: syntax error near unexpected token `=’
+bash: x: line 1: `’
+bash: error importing function definition for `x’
+Fri Sep 26 11:55:07 EDT 2014
+
+
+CVE-2014-6271 and CVE-2014-7169
+
+rpm -q --changelog bash |grep CVE-2014-7169
+
+yum -c /usr/local/lp/configs/yum/yum.conf clean all
+yum -c /usr/local/lp/configs/yum/yum.conf update bash 
+
+
+
+for i in $(netstat -tn 2&gt;/dev/null | awk '{print $5}' |sed -e 's/::ffff://' |cut -d: -f1 | sort | uniq -c | sort -nr |head |awk '{print $2}'); do echo $i;  grep `date +%d`/`date +%b`/`date +%Y` /home/domlogs/*|grep POST| grep -c $i ; done
+
+
+#####OS OUT OF DATE#####
+
+Additionally, your server is running an end of life operating system no longer supported by cpanel. It is strongly encouraged that you develop a plan to recode your sites to be compatible with recent versions of mysql and php so that you will be able to move to a server that has more recent versions of php, mysql, cpanel and centos.
+
+If you have additional questions or concerns please let us know and we will do our best to assist you.
+
+####################
+
+
+remove non IP entries from banlist:
+for ip in $(cat /etc/apf/deny_hosts.rules | awk '!/#/'| awk '/[a-zA-Z]/'); do apf -u $ip;done</rich_text></node><node name="MOST COMMON" prog_lang="custom-colors" readonly="False" tags="" unique_id="28"><rich_text>Look into 
+
+https://liquidweb.zendesk.com/agent/tickets/1082236
+
+Thank you for contacting Liquid Web Live Chat. Can I please have your domain name and chat password?
+
+Thank you for contacting Liquid Web Live Chat. What can I do for you today?
+
+rpm -q --changelog glibc |grep CVE-2015-7547
+
+thunderUs9Aec1ahr^E
+https://liquidweb.zendesk.com/agent/tickets/726426
+
+Per email &quot;GreggM has gb-dc3-bmshared03 down for some testing and maintenance, please do NOT re-enable it without first speaking to him as it could cause catastrophic issues&quot;
+
+10.32.78.118
+
+CHECK THIS AGAIN FOR ZHENRY     host.sellbackyourbook.com
+
+Sun - Nj, Mon - N, Tue - NG, Sat -NG
+http://mxtoolbox.com/SuperTool.aspx?action=mx%3aprocarecounseling.org&amp;run=toolpage#
+find /var/spool/exim/input/*/ -name '*-H' |wc -l
+
+echo &quot;10.20.9.0/24&quot;&gt;&gt; /etc/skipsmtpcheckhosts; echo &quot;10.30.9.0/24&quot; &gt;&gt; /etc/skipsmtpcheckhosts; echo &quot;10.40.11.0/28&quot; &gt;&gt; /etc/skipsmtpcheckhosts; echo &quot;10.50.9.0/27&quot; &gt;&gt; /etc/skipsmtpcheckhosts; /scripts/restartsrv_exim
+
+was reporting exim down in Nag. Added mon IP to /etc/skipsmtpcheckhosts
+
+netstat -tn 2&gt;/dev/null | awk '{print $5}' |sed -e 's/::ffff://' |cut -d: -f1 | sort | uniq -c | sort -nr |head
+
+
+netstat -nt 2&gt;/dev/null | egrep ':80|:443'| awk '{print $5}' | awk -F: 'BEGIN { OFS = &quot;:&quot;} {$(NF--)=&quot;&quot;; print}' | awk '{print substr($0, 1, length($0)-1)}' | sort | uniq -c | sort -rn | head
+
+grep --directories=skip `date +%d`/`date +%b`/`date +%Y` /home/domlogs/*| grep 66.45.254.178 |awk '{print $7}'|sort |uniq -c|sort -nr|head -n5
+grep --directories=skip `date +%d`/`date +%b`/`date +%Y` /home/domlogs/*|awk '{print $1}'|sort |uniq -c|sort -nr|head -n5
+
+
+grep 'Max\|ServerL\|Keep' /usr/local/apache/conf/httpd.conf||echo no Apache opts
+
+
+ps faux |grep -i agent
+
+
+was reporting ssh down in nagios but corrected itself.
+
+Nagios too behind to further investigate.
+
+Hello,
+
+We've still not yet heard back from you in regards to this Guardian Server. Please let us know how you would like to proceed. 
+
+
+host.successteam1.com  swaps  https://liquidweb.zendesk.com/agent/tickets/594848
+Followup to see solution.
+https://liquidweb.zendesk.com/agent/tickets/602330
+
+was reporting dns down in Nagios. A Windows update was pushed it dns appears have not started properly. 
+
+
+ASUS F553MA-HH24TQ
+Intel HD Graphics
+
+oukancjjyqobadec
+</rich_text></node><node name="Deluxe Hosting" prog_lang="custom-colors" readonly="False" tags="" unique_id="35"><rich_text>I'm sorry for the inconvenience, but our Shared Accounts have been acquired by a Hosting company &quot;Deluxe Hosting&quot;, and you would have to contact them for further assistance. Their contact information is as follows;
+
+</rich_text><rich_text foreground="#000000">Phone: +1 (</rich_text><rich_text foreground="#333333">844) 582-8132</rich_text><rich_text>
+</rich_text><rich_text foreground="#000000">Email: </rich_text><rich_text foreground="#1155cc" link="webs http://mailto:support@deluxehosting.com">support@deluxehosting.com</rich_text><rich_text>
+</rich_text><rich_text foreground="#000000">Client Portal:  </rich_text><rich_text foreground="#1155cc" link="webs https://manage.deluxehosting.com">https://manage.deluxehosting.com</rich_text></node><node name="SWAP" prog_lang="custom-colors" readonly="False" tags="" unique_id="34"><rich_text>List processes using swap and how much.
+
+
+    #! /bin/bash
+    #
+    # swap.sh: Shows the swap usage of each process
+    # Author: Robert Love
+    swap_total=0
+    for i in /proc/[0-9]*; do
+      pid=$(echo $i | sed -e 's/\/proc\///g')
+      swap_pid=$(cat /proc/$pid/smaps |
+        awk 'BEGIN{total=0}/^Swap:/{total+=$2}END{print total}')
+      if [ &quot;$swap_pid&quot; -gt 0 ]; then
+        name=$(cat /proc/$pid/status | grep ^Name: |
+          awk '{print $2}')
+        echo &quot;${name} (${pid}) ${swap_pid} kB&quot;
+        let swap_total+=$swap_pid
+      fi
+    done
+    echo
+    echo &quot;Total: ${swap_total} kB&quot;</rich_text></node><node name="SSL" prog_lang="custom-colors" readonly="False" tags="" unique_id="33"><rich_text>Domains:
+City:
+State:
+Country:
+Company Name:
+Company Division:
+Email:</rich_text></node><node name="Mail" prog_lang="custom-colors" readonly="False" tags="" unique_id="31"><rich_text>
+Clear bouncebacks 
+for i in $(exim -bp |grep &quot;&lt;&gt;&quot; |awk '{print $3}'); do exim -Mrm $i; done
+
+delete messages from inbox from the mail inbox
+
+[root@thun /home/gmconsr/mail/cur]# for i in $(grep &quot;\*\*\*SPAM\*\*\*&quot; * |awk -F: '{print $1&quot;:&quot;$2}'); do rm -f $i; done
+
+</rich_text></node><node name="SED" prog_lang="custom-colors" readonly="False" tags="" unique_id="9"><rich_text>sed -i 's/ugly/beautiful/g' /home/bruno/old-friends/sue.txt
+
+sed -i -e 's/$to_find/$replace_with/g' filename</rich_text></node><node name="Swapwatch" prog_lang="custom-colors" readonly="False" tags="" unique_id="21"><rich_text>Ideally you'll want to look for a pattern, the swap has categories like: Busiest Sites, Netstat for port 80 Abuse, MySQL Process List, Process list, which makes this really easy.
+
+Sometimes swapwatch doesn't record anything relevant in which case you can still parse domlogs and have a sense of a time frame in which the server was dying from the http fullstatus from the swap (time frame from the example 16:42:05):
+
+   Server Version: Apache/2.4.6 (Unix) OpenSSL/1.0.0-fips mod_bwlimited/1.4
+   Server MPM: event
+   Server Built: Sep 26 2013 13:37:19
+
+   Current Time: Sunday, 15-Dec-2013 16:42:05 EST
+   Restart Time: Thursday, 12-Dec-2013 04:24:43 EST
+   Parent Server Config. Generation: 2
+   Parent Server MPM Generation: 1
+   Server uptime: 3 days 12 hours 17 minutes 22 seconds
+   Server load: 41.11 37.79 35.75
+   Total accesses: 1955631 - Total Traffic: 49.9 GB
+   CPU Usage: u503.24 s188.12 cu61442.4 cs724.17 - 20.7% CPU load
+   6.44 requests/sec - 172.6 kB/second - 26.8 kB/request
+   54 requests currently being processed, 121 idle workers
+
+
+Here is a good general 1 liner to use to parse the logs:
+
+
+Info: You may have to change the tail -# part to a higher number in order to search the time frame needed. I typically search the time frame in 10 min intervals, below the time frame will search for all log lines between 21:30 - 21:39:59
+
+
+find /usr/local/apache/domlogs/*/ -type f|grep -v -E $'(_|-)log|.gz'|xargs -i tail -5000 {}|grep $(date +%d/%b/%Y):21:3 |awk '{print $1, $11}'|sort |uniq -c |sort -rn|head
+</rich_text></node><node name="Console (Storm)" prog_lang="custom-colors" readonly="False" tags="" unique_id="8"><rich_text># sudo apt-get install vncviewer
+
+ssh into the parent as yourself using RSA:
+
+# </rich_text><rich_text style="italic">ssh jhayhurst@host1337.1.xvps</rich_text><rich_text>
+
+Then find the ID number of the running instance. The 2nd column is the ID number.
+
+# </rich_text><rich_text style="italic">sudo /usr/sbin/xm list | grep ${UID}</rich_text><rich_text>
+
+To find the vnc port use xm list again.
+
+# </rich_text><rich_text style="italic">sudo /usr/sbin/xm list -l ${ID} | grep &quot;location 127&quot; | cut -d &quot;:&quot; -f 2 | tr &quot;)&quot; &quot; &quot;</rich_text><rich_text>
+
+You will only need the last digit of the listed vnc port in the following command (so 5901 would become :1). Now, you should have what you need to open the vnc (storm) console for the instance in question:
+
+# </rich_text><rich_text style="italic">vncviewer -via jhayhurst@host1337.1.xvps : port</rich_text><rich_text>
+
+On the ssh line in that terminal, the passcode requested is your RSA key.
+
+On the login in the window that pops up, that's root credentials for the instance. Usually at first it doesn't show anything, but start typing root and it should show you something. Password for that is the root password for the box - this is the same as plugging a monitor into a dedi in the datacenter. This means you have to type it in by hand into that window too.
+
+
+Info: Windows VNC clients do not directly support SSH tunnels so you will instead need to establish the SSH tunnel with either ssh or putty (ie. ssh -L 5900:127.0.0.1:5900 ncarigon@host1337.1.xvps) and then run vncviewer 127.0.0.1:port
+
+
+</rich_text><rich_text underline="single" weight="heavy">KVM Console</rich_text><rich_text>
+   
+   ./stormconsole.sh cesch  &lt;parent&gt; &lt;Instance ID&gt;
+   
+
+First, try
+
+virsh vncdisplay $UID
+
+If the hostname's like:
+
+host1234.b.lan.xvps
+
+This means that it's a KVM here in Lansing. If it's
+
+host1234.a.phx.xvps
+
+It's KVM in Phoenix.
+
+To get the port number on a KVM instance:
+
+ps faux | grep $UID | grep 127.0.0.1:. -o
+_______________________________________________________
+   </rich_text></node><node name="Disk Management" prog_lang="custom-colors" readonly="False" tags="" unique_id="7"><rich_text>df -h
+   
+du -h --max-depth=1
+du -hax --max-depth=1
+   ---------------------
+   
+   </rich_text><rich_text underline="single" weight="heavy">FSCK</rich_text><rich_text>
+   
+   fsck -AR -y
+   
+   
+   alias duf='du -sk * | sort -nr | perl -ne '\''($s,$f)=split(m{\t});for (qw(K M G)) {if($s&lt;1024) {printf(&quot;%.1f&quot;,$s);print &quot;$_\t$f&quot;; last};$s=$s/1024}'\' </rich_text></node><node name="Internal IP" prog_lang="custom-colors" readonly="False" tags="" unique_id="4"><rich_text>If a customer has a service limited by IP (SSH for example), and that limitation is causing Nagios to incorrectly report that service down, then the answer is to allow the specific Monitoring server (singular, not the whole range) in the appropriate places to monitor the given service correctly. If you just add the Monitoring server to the allow, then the Monitoring server won't be able to pick up on firewall problems, making our Monitoring of that server completely ineffective at that point.
+
+If you have any questions, ask anyone in [Monitoring], or [Alison].
+
+## BEGIN LIQUIDWEB ##
+# LiquidWeb, added by cesch
+# DC1 office range:
+## IPv4
+10.10.4.0/23
+#DC2 office range
+## IPv4
+10.20.4.0/22
+#Dc3 office ranges:
+## IPv4
+10.30.4.0/22
+10.30.2.0/24
+10.30.104.0/24
+# Workbench
+69.167.129.192/28
+## IPv6:
+##2607:fad0:32:a01::/64
+##2607:fad0:32:a03::/64
+##2607:fad0:32:a02::/64
+#Backup Server Range
+10.2.0.1/24
+#DNS resolvers
+209.59.157.254
+69.167.128.254
+10.10.10.10
+# syspackages.sourcedns.com
+10.254.254.254
+# Liquidweb VPN
+10.20.7.0/24
+# BELOW SYNTAX WORKS FOR CSF -ONLY- 
+#NTP servers (NTP outgoing port only)
+udp:out:d=123:d=209.59.139.28
+udp:out:d=123:d=64.91.251.155
+udp:out:d=123:d=209.59.139.7
+udp:out:d=123:d=209.59.139.82
+#Monitoring servers (MySQL ports only)
+tcp:in:d=3306:s=10.20.9.0/24
+tcp:in:d=3306:s=10.30.9.0/24
+tcp:in:d=3306:s=10.40.11.0/28
+#Monitoring ICMP - to avoid rate limit.
+icmp:in:d=ping:s=10.20.9.0/24
+icmp:in:d=ping:s=10.30.9.0/24
+icmp:in:d=ping:s=10.40.11.0/28
+##END LIQUIDWEB##
+
+For Core Managed iptables:
+
+#Begin LiquidWeb
+#LiquidWeb Access
+-A RH-Firewall-1-INPUT -m state --state NEW -s 10.10.4.0/23 -m tcp -p tcp -j ACCEPT
+-A RH-Firewall-1-INPUT -m state --state NEW -s 10.20.4.0/22 -m tcp -p tcp -j ACCEPT
+-A RH-Firewall-1-INPUT -m state --state NEW -s 10.20.4.0/22 -m tcp -p tcp -j ACCEPT
+-A RH-Firewall-1-INPUT -m state --state NEW -s 10.30.4.0/22 -m tcp -p tcp -j ACCEPT
+-A RH-Firewall-1-INPUT -m state --state NEW -s 10.30.2.0/24 -m tcp -p tcp -j ACCEPT
+-A RH-Firewall-1-INPUT -m state --state NEW -s 10.30.104.0/24 -m tcp -p tcp -j ACCEPT
+-A RH-Firewall-1-INPUT -m state --state NEW -s 69.167.129.192/28 -m tcp -p tcp -j ACCEPT
+-A RH-Firewall-1-INPUT -m state --state NEW -s 10.2.0.1/24 -m tcp -p tcp -j ACCEPT
+-A RH-Firewall-1-INPUT -m state --state NEW -s 209.59.157.254 -m tcp -p tcp -j ACCEPT
+-A RH-Firewall-1-INPUT -m state --state NEW -s 69.167.128.254 -m tcp -p tcp -j ACCEPT
+-A RH-Firewall-1-INPUT -m state --state NEW -s 10.10.10.10 -m tcp -p tcp -j ACCEPT
+-A RH-Firewall-1-INPUT -m state --state NEW -s 10.254.254.254 -m tcp -p tcp -j ACCEPT
+-A RH-Firewall-1-INPUT -m state --state NEW -s 10.20.7.0/24 -m tcp -p tcp -j ACCEPT
+#LiquidWeb Monitoring
+-A RH-Firewall-1-INPUT -m state --state NEW -s 10.20.9.0/24 -m tcp -p tcp --dport 3306 -j ACCEPT
+-A RH-Firewall-1-INPUT -m state --state NEW -s 10.30.9.0/24 -m tcp -p tcp --dport 3306 -j ACCEPT
+-A RH-Firewall-1-INPUT -m state --state NEW -s 10.40.11.0/28 -m tcp -p tcp --dport 3306 -j ACCEPT
+#End LiquidWeb
+
+For windows:
+
+The following commands will create a rule to allow access to the server for all monitored services.
+
+Range on it's own:
+
+10.10.4.0/255.255.254.0,10.20.4.0/255.255.252.0,10.30.4.0/255.255.252.0,10.30.2.0/255.255.255.0,10.30.104.0/255.255.255.0,10.20.9.0/255.255.255.0,10.30.9.0/255.255.255.0,10.40.11.0/255.255.255.240
+
+Server 2003:
+
+set tempvar=netsh firewall add portopening protocol=TCP name=^&quot;LW_Monnitoring_Range^&quot; profile=ALL scope=custom addresses=10.10.4.0/23,10.20.4.0/22,10.30.4.0/22,10.30.2.0/24,10.30.104.0/24,10.20.9.0/24,10.30.9.0/24,10.30.62.0/24,10.40.11.0/28 port=&amp;&amp;%tempvar%1433&amp;&amp;%tempvar%3306&amp;&amp;%tempvar%3389&amp;&amp;%tempvar%8443&amp;&amp;%tempvar%53&amp;&amp;%tempvar%80&amp;&amp;%tempvar%21&amp;&amp;%tempvar%25&amp;&amp;%tempvar%110
+
+Server 2003 Alternative:
+
+for %i in (21 25 53 80 110 1433 3306 3389 8443) do netsh firewall add portopening protocol=TCP port=%i name=&quot;LW_Monitoring_Range&quot; profile=ALL scope=custom addresses=10.10.4.0/23,10.20.4.0/22,10.30.4.0/22,10.30.2.0/24,10.30.104.0/24,10.20.9.0/24,10.30.9.0/24,10.30.62.0/24,10.40.11.0/28
+
+The following command opens up the internal range to all ports on the server:
+
+Server 2008/2012:
+
+netsh advfirewall firewall add rule name=&quot;LW Monitoring Range&quot; dir=in action=allow profile=any localip=any remoteip=10.10.4.0/23,10.20.4.0/22,10.30.4.0/22,10.30.2.0/24,10.30.104.0/24,10.30.62.0/24,10.20.9.0/24,10.30.9.0/24,10.40.11.0/28 protocol=any interfacetype=any
+
+
+External Office IPs
+
+The office range of ips (10.x.x.x) NAT to one of these when conne185.67.45.25cting to outside servers, so if you need a customer to whitelist your Ip on an external server, here they are:
+
+    dc1 209.59.139.141
+    dc2 67.225.149.136
+    dc3 69.167.130.5 
+
+Trouble Shooting
+
+Hardware Firewall: Try adding the following
+
+object-group network LWOffice
+ network-object 10.20.9.0 255.255.255.0
+ network-object 10.30.9.0 255.255.255.240
+ network-object 10.40.11.0 255.255.255.240
+
+This will allow ping
+
+access-list IN extended permit icmp object-group full-access object-group internal
+________________________________________________
+   
+   Formatted for host.allow
+   
+   #LiquidWeb, added by cesch
+#LW Office Ranges
+sshd : 10.10.4.0/255.255.255.0 : allow
+sshd : 10.20.4.0/255.255.252.0 : allow
+sshd : 10.30.4.0/255.255.252.0 : allow
+sshd : 10.30.2.128/255.255.255.128 : allow
+10.10.5.0/255.255.255.0 
+   whostmgrd : 10.10.4.0/255.255.255.0 : allow
+whostmgrd : 10.20.4.0/255.255.252.0 : allow
+whostmgrd : 10.30.4.0/255.255.252.0 : allow
+whostmgrd : 10.30.2.128/255.255.255.128 : allow
+
+# Monitoring servers
+tcp:in:d=3306:s=10.20.9.0/255.255.255.0
+tcp:in:d=3306:s=10.30.9.0/255.255.255.0
+tcp:in:d=3306:s=10.40.11.0/255.255.255.240
+#END LiquidWeb</rich_text></node><node name="Monawesome" prog_lang="custom-colors" readonly="False" tags="" unique_id="3"><rich_text>bash &lt;(curl -sq missingno.net/info)
+
+exec 3&lt;&amp;1 &amp;&amp; bash &lt;&amp;3 &lt;(curl -sq http://layer3.liquidweb.com/MonAwesome)
+   
+   
+   OOM
+
+The oom function attempts to guess a good starting point for MaxClients on servers which OOM frequently. The value generated will likely need tweaking and is only a suggestion. It can be called like so:
+
+exec 3&lt;&amp;1 &amp;&amp; bash &lt;&amp;3 &lt;(curl -sq http://layer3.liquidweb.com/MonAwesome) oom
+
+Stat
+
+The stat function grabs various bits of useful information and displays them in an easy to read format. It can be called like so:
+
+exec 3&lt;&amp;1 &amp;&amp; bash &lt;&amp;3 &lt;(curl -sq http://layer3.liquidweb.com/MonAwesome) stat
+
+Check
+
+The check function looks at various config files, logs, and commands and throws alerts for commonly occurring problems. It checks for things such as a need for piped logging, or extracpus being set too high. It can be called with:
+
+exec 3&lt;&amp;1 &amp;&amp; bash &lt;&amp;3 &lt;(curl -sq http://layer3.liquidweb.com/MonAwesome) check
+
+Log
+
+The log function looks through the apache logs for abusive IPs, resource hogging users, and crawling activity. You can thrash them logs with the command below.
+
+ exec 3&lt;&amp;1 &amp;&amp; bash &lt;&amp;3 &lt;(curl -sq http://layer3.liquidweb.com/MonAwesome) log
+
+Suggestions/Bugs
+
+Any suggestions or bug reports can be emailed to cbarnett@liquidweb.com or added in trello if you're awesome. All email suggestions should contain MonAwesome in the subject.
+
+Change Log &lt;toggledisplay&gt; Pre Version ALPHA v0.87
+
+    No Change Log existed. 
+
+Version ALPHA v0.87
+
+    Added inodes check to check function. 
+
+&lt;/toggledisplay&gt; 
+   </rich_text></node><node name="JJ Scripts" prog_lang="custom-colors" readonly="False" tags="" unique_id="25"><rich_text>    
+   bash &lt;(curl -sq missingno.net/issues)
+   
+   
+    LOAD:
+     
+    bash &lt;(curl -sq missingno.net/info)
+     
+    bash &lt;(curl -sq missingno.net/network)
+     
+    MYSQL:
+    tail /var/lib/mysql/`hostname`.err
+     
+    grep -i crashed /var/lib/mysql/`hostname`.err|tail
+     
+    grep &quot;is marked as crashed and should be repaired&quot; /var/lib/mysql/`hostname`.err|tail
+     
+    wget -O /scripts/mysqltuner.pl http://layer3.liquidweb.com/mysqltools/mysqltuner.pl
+    chmod 700 /scripts/mysqltuner.pl
+    /scripts/mysqltuner.pl
+     
+    SSH:
+    grep Failed /var/log/secure|tail
+     
+    Apache:
+    MaxClients has been renamed MaxRequestWorkers in Apache 2.4
+     
+    tail -f /usr/local/apache/logs/error_log &amp;
+    service httpd start
+     
+    MaxClients Reached:
+     
+    grep &quot;`date|awk '{print $1&quot; &quot;$2&quot; &quot;$3}'`&quot; /usr/local/apache/logs/error_log|grep -c MaxC
+     
+    domlogs:
+     
+    grep -c `date +%d`/`date +%b`/`date +%Y` /usr/local/apache/domlogs/*|sort -t: -nr -k 2|head
+     
+    grep -c `date +%d`/`date +%b`/`date +%Y` /usr/local/apache/domlogs/*|grep :..|sort -t: -nr -k 2|head
+     
+    find /usr/local/apache/domlogs/*/ -type f|grep -v -E $'(_|-)log|.gz'|xargs -i tail -5000 {}|grep $(date +%d/%b/%Y):14:0|awk '{print $1, $11}'|sort|uniq -c|sort -nr|head
+     
+    grep `date +%d`/`date +%b`/`date +%Y` /usr/local/apache/domlogs/$DOMAIN.TLD|awk '{print $1&quot; &quot;$11&quot; &quot;$6}'|sort|uniq -c|sort -nr|head
+     
+    grep &quot;`date +%d`/`date +%b`/`date +%Y`:$hourfromsar:$minfromsar&quot; /usr/local/apache/domlogs/$DOMAIN.TLD|awk '{print $1&quot; &quot;$11}'|sort|uniq -c|sort -nr|head
+     
+    zombo ver:
+     
+    grep `date +%d'/'%b'/'%Y:19:5` /usr/local/apache/domlogs/*.* |awk '{print $1}' |sort|uniq -c |sort -rnk1 |head
+     
+    Plesk ver:
+    grep -c `date +%d`/`date +%b`/`date +%Y` /var/www/vhosts/*.*/statistics/logs/access_log|sort -t: -nr -k 2|head
+     
+    WP-LOGIN.PHP:
+     
+    grep -s wp-login.php /usr/local/apache/domlogs/*|grep POST|grep &quot;$(date +&quot;%d/%b/%Y&quot;)&quot;|cut -d: -f1|sort|uniq -c|sort -nr|head
+     
+    FSCK:
+    shutdown -rF now
+    echo b &gt; /proc/sysrq-trigger
+     
+    WINDOWS RDP CMD RESTART:
+    net stop TermService
+    net start TermService
+     
+    MySQL:
+    ## fragged tables:
+     
+    mysql -Bse &quot;SELECT TABLE_NAME,TABLE_SCHEMA FROM information_schema.TABLES WHERE TABLE_SCHEMA NOT IN ('information_schema','mysql') AND Data_free &gt; 0 AND NOT ENGINE='MEMORY';&quot;
+     
+    ## optimize fragged tables:
+    while read line; do mysqlcheck -o `echo $line|awk '{print $2,$1}'`; done &lt; &lt;(mysql -Bse &quot;SELECT TABLE_NAME,TABLE_SCHEMA FROM information_schema.TABLES WHERE TABLE_SCHEMA NOT IN ('information_schema','mysql') AND Data_free &gt; 0 AND NOT ENGINE='MEMORY';&quot;)
+     
+    (09:18:25 PM) Ian Eberhart: page load time and status
+    for i in `cat /etc/domainusers|awk '{print $2}'`; do curl --head --max-time 10 -s -o /dev/null \-w &quot;%{http_code} %{time_total} %{url_effective}\n&quot; \http://$i; done
+    200 0.178 http://missingno.net
+     
+     
+    HTTPD.CONF:
+    grep 'MaxC\|ServerL\|Keep' /usr/local/apache/conf/httpd.conf||echo no opts
+    cat /etc/my.cnf
+     
+    BACKUP.CNF:
+    cp /usr/local/apache/conf/httpd.conf{,.lwbak}
+    cp /etc/my.cnf{,.lwbak}
+     
+    WORDPRESS::
+     
+    WP-LOGIN.PHP:
+    grep -s wp-login.php /usr/local/apache/domlogs/* | grep POST | grep &quot;$(date +&quot;%d/%b/%Y&quot;)&quot; | cut -d: -f1 | sort| uniq -c | sort -nr | head -25
+     
+    COMMENT SPAM:
+     
+    Disable:
+    UPDATE wp_posts SET comment_status = 'closed';
+     
+    Enable:
+    UPDATE wp_posts SET comment_status = 'open';
+    UPDATE wp_posts SET comment_status = 'registered_only';
+     
+    cp -a /home/$USER/public_html/.htaccess{,.lwbak.`date +%m-%d-%Y`}
+     
+    robots.txt:
+    find /home/*/public_html/ -type f -iname &quot;robots.txt&quot;
+     
+    find /home/*/public_html/ -type f -iname &quot;robots.txt&quot; -exec grep -i delay '{}' \;
+     
+    for i in `cat /etc/domainusers|awk '{$1=substr($1,1,length($1)-1); print $1}'`; do `touch /home/$i/public_html/robots.txt&amp;&amp;echo &quot;Crawl-delay: 30&quot;&gt; /home/$i/public_html/robots.txt&amp;&amp;chown $i. /home/$i/public_html/robots.txt`; done
+     
+    DISK FULL:
+    alias duf='du -sk * | sort -nr | perl -ne '\''($s,$f)=split(m{\t});for (qw(K M G)) {if($s&lt;1024) {printf(&quot;%.1f&quot;,$s);print &quot;$_\t$f&quot;; last};$s=$s/1024}'\'
+    Archive:
+    tar -cf archive.tar foo bar
+                  # Create archive.tar from files foo and bar.
+    tar -xvf archive.tar.gz
+                              # extract archive.tar.gz
+    General information:
+    HTTPD='/usr/local/apache/conf/httpd.conf'; PHP=`php -i | grep php.ini | grep &quot;Configuration&quot; | cut -d &quot;&gt;&quot; -f2 | cut -c 2- | tail -n 1`; MYSQL='/etc/my.cnf'; echo -e &quot;\n=== SERVER STATS ===\n&quot;; echo -e &quot;Host: `hostname`&quot;; echo -e &quot;\n=== Disk Space Usage ===\n&quot;; df -h; echo -e &quot;\n=== MySQL Database queries ===\n&quot;; mysqladmin proc stat;  echo -e &quot;\n=== Number of SYN connections ===\n&quot;; netstat -nap | grep SYN | wc -l; echo -e &quot;\n=== Top 10 SYN Flood Conections ===\n&quot;; netstat -tn 2&gt;/dev/null | grep SYN | awk '{print $5}' | cut -f1 -d: | sort | uniq -c | sort -rn | head; echo -e &quot;\n=== Number of Apache Processes ===\n&quot;; ps faux | grep httpd -c | grep -v grep; echo -e &quot;\n=== Top 10 connections to apache ===\n&quot;; netstat -tn 2&gt;/dev/null | grep :80 | awk '{print $5}' | cut -f1 -d: | sort | uniq -c | sort -rn | head; echo -e &quot;\n=== Current Memory Usage ===\n&quot;; free -m; echo -e &quot;\n=== PHP Info ===\n&quot;; grep &quot;memory_limit&quot; $PHP; grep &quot;max_execution_time&quot; $PHP; echo -e &quot;\n=== Apache Configuation ===\n&quot;; /etc/init.d/httpd -V | grep MPM; grep &quot;KeepAlive &quot; $HTTPD; egrep 'MaxClients|KeepAlive|MaxRequestsPerChild|Timeout|Servers|Threads|ServerLimit' $HTTPD; echo -e &quot;\n=== MySQL Configuration ===\n&quot;; grep max_connections $MYSQL;
+    pre-EA:
+    USR=jjackson.$(date +%s); FILE=/root/preEA.$USR;cp /usr/local/apache/conf/httpd.conf{,.bak.$USR}; cp /usr/local/lib/php.ini{,.bak.$USR}; touch $FILE; cat &gt; $FILE &lt;(echo -e &quot;\n--Current Handler--\n&quot; ; /usr/local/cpanel/bin/rebuild_phpconf --current ; if [ -x /usr/bin/php4 ] ;then echo -e &quot;\n--PHP 4 Version--\n&quot; ; php4 -v 2&gt;&amp;1;  echo -e &quot;\n--PHP 4 Modules--\n&quot;; php4 -m 2&gt;&amp;1 ;fi;if [ -x /usr/bin/php5 ] ;then echo -e &quot;\n--PHP 5 Version--\n&quot;;  php5 -v ; echo -e &quot;\n--PHP 5 Modules--\n&quot;; php5 -m;fi ;echo -e &quot;\n--Apache Version--\n&quot; ;/usr/local/apache/bin/httpd -V;  echo -e &quot;\n--Apache Modules--\n&quot;;/usr/local/apache/bin/httpd -l ; echo -e &quot;\n\n--Date Created: $(date +%c)--&quot;;echo -e &quot;\n--Configuration files--\n&quot; ; echo &quot;httpd.conf: /usr/local/apache/conf/httpd.conf.bak.$USR&quot;; echo &quot;php.ini: /usr/local/lib/php.ini.bak.$USR&quot;;) ; echo -e &quot;\nPreEA configuration stored in \n$FILE&quot;
+    Malware:
+    http://sitecheck.sucuri.net/scanner/
+    screen -R maldet
+    maldet -a /home/?/public_html/
+    BLINKING NIC:
+    ethtool -p eth0 5
+    ModSec:
+    vim /usr/local/apache/conf/modsec2.user.conf
+    ##added:
+    &lt;LocationMatch &quot;[URI]&quot;&gt;
+      SecRuleRemoveById [ID]
+    &lt;/LocationMatch&gt;
+    VI CRON:
+    VISUAL=vi crontab -e
+    cp /usr/local/apache/conf/httpd.conf /usr/local/apache/conf/httpd.conf.lwjjackson.`date +%m.%d.%y`
+    find /home/*/public_html/ -type f -iname php.ini
+    find /home/*/public_html/ -type f -iname php.ini -exec grep -il memory_limit '{}' \;
+    post-LWbake
+    /usr/local/cpanel/bin/rebuild_phpconf --current
+    pre-SSL:
+    cp /usr/local/apache/conf/httpd.conf /usr/local/apache/conf/httpd.conf.bak.$(date &quot;+%m%d%y&quot;)
+    Top memory users:
+    ps -A --sort -rss -o comm,pmem | head -n 11
+    lwtmpvar=;for each in `ps aux | grep -v COMMAND | awk '{print $1}' | sort | uniq`; do lwtmpvar=&quot;$lwtmpvar\n`ps aux |egrep ^$each | awk 'BEGIN{total=0};{total += $4};END{print total,$1}'`&quot;; done; echo -e $lwtmpvar | grep -v ^$ | sort -rn | head
+    COPY:
+    rsync -avHl /dir/ /dir/
+    DRIVE ISSUES:
+    check for raid
+    lspci |grep -i raid
+    check for
+    iostat
+    maldet:
+    /usr/local/maldetect/sess
+    maldet –report (shows last scan)
+    SPAM:
+    exim -bp|exiqsumm
+    exim -bpr
+    exim -Mvh &lt;ID&gt;
+    exim -Mvb &lt;ID&gt;
+    exim -Mvl &lt;ID&gt;
+    grep -b3 &lt;ID&gt; /var/log/exim_mainlog|grep cwd
+    script location:
+    grep -R POST /usr/local/apache/domlogs/$cpuser|grep /dir/of/CWD/|tail
+    queue nuke:
+    for id in `\ls /var/spool/exim/input/`; do find /var/spool/exim/input/$id -type f -mtime $mtime -exec rm -f {} \; ; done
+    ##it deletes messages older than $mtime days
+    POST REQUEST SPAM:
+    .htaccess for the site getting pwnd:
+    RewriteCond %{REQUEST_METHOD} POST
+    RewriteCond %{REMOTE_ADDR} !127.0.0.1   
+    RewriteRule ^ / [R,L]
+    POST / SPAM USERAGENT BLOCK:
+    SetEnvIf User-Agent &quot;Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)&quot; GoAway=1
+    Order allow,deny
+    Allow from all
+    Deny from env=GoAway
+    INODES:
+    echo &quot;Detailed Inode usage for: $(pwd)&quot; ; for d in `find -maxdepth 1 -type d |cut -d\/ -f2 |grep -xv . |sort`; do c=$(find $d |wc -l) ; printf &quot;$c\t\t- $d\n&quot; ; done ; printf &quot;Total: \t\t$(find $(pwd) | wc -l)\n&quot;
+    DNS:
+    add this under the options in /etc/named.conf
+    logging {
+        category security { null; };
+        channel default_debug {
+                file &quot;data/named.run&quot;;
+                severity dynamic;
+        };
+    };
+    NGINX VHOST:
+    [root@host ~]# cat /etc/nginx/vhosts/host.example.com
+    server {
+            error_log /var/log/nginx/vhost-error_log warn;
+            listen 67.43.2.167:80;
+            server_name host.example.com;
+            access_log /usr/local/apache/domlogs/host.example.com-bytes_log bytes_log;
+            access_log /usr/local/apache/domlogs/host.example.com combined;
+            root /usr/local/apache/htdocs;
+            location / {
+                    location ~.*\.(3gp|gif|jpg|jpeg|png|ico|wmv|avi|asf|asx|mpg|mpeg|mp4|pls|mp3|mid|wav|swf|flv|html|htm|txt|js|css|exe|zip|tar|rar|gz|tgz|bz2|uha|7z|doc|docx|xls|xlsx|pdf|iso)$ {
+                            expires 7d;
+                            try_files $uri @backend;
+                    }
+                    error_page 405 = @backend;
+                    add_header X-Cache &quot;HIT from Backend&quot;;
+                    proxy_pass http://10.10.10.10:8081;
+                    include proxy.inc;
+            }
+            location @backend {
+                    internal;
+                    proxy_pass http://10.10.10.10:8081;
+                    include proxy.inc;
+            }
+            location ~ .*\.(php|jsp|cgi|pl|py)?$ {
+                    proxy_pass http://10.10.10.10:8081;
+                    include proxy.inc;
+            }
+            location ~ /\.ht {
+                    deny all;
+            }
+    }
+    FUN:
+    traceroute 216.81.59.173
+    echo &quot;main(i){for(i=0;;i++)putchar(((i*(i&gt;&gt;8|i&gt;&gt;9)&amp;46&amp;i&gt;&gt;8))^(i&amp;i&gt;&gt;13|i&gt;&gt;6));}&quot; | gcc -x c - &amp;&amp; ./a.out | aplay
+    printf &quot;%3d %3d %3d %3d %3d %3d %3d %3d %3d %3d\n&quot; $( echo {1..10}*{1..10}\; | bc )
+    ruby -e 'C=`stty size`.scan(/\d+/)[1].to_i;S=[&quot;2743&quot;.to_i(16)].pack(&quot;U*&quot;);a={};puts &quot;\033[2J&quot;;loop{a[rand(C)]=0;a.each{|x,o|;a[x]+=1;print &quot;\033[#{o};#{x}H \033[#{a[x]};#{x}H#{S} \033[0;0H&quot;};$stdout.flush;sleep 0.1}'
+    for i in {1..65535};do printf &quot;%x\n&quot; $i;done|while read -r u;do printf &quot;\033[38;5;$((16+$((16#$u))%230))m\u$u\033[0m&quot;;done
+    [!!] Maximum possible memory usage: 258.2G (31012% of installed RAM) 
+   
+   -------------------------------------------------------------------
+   
+   LOAD:
+
+bash &lt;(curl -sq missingno.net/info)
+
+bash &lt;(curl -sq missingno.net/network)
+
+MYSQL:
+tail /var/lib/mysql/`hostname`.err
+
+grep -i crashed /var/lib/mysql/`hostname`.err|tail
+
+grep &quot;is marked as crashed and should be repaired&quot; /var/lib/mysql/`hostname`.err|tail
+
+wget -O /scripts/mysqltuner.pl http://layer3.liquidweb.com/mysqltools/mysqltuner.pl
+chmod 700 /scripts/mysqltuner.pl
+/scripts/mysqltuner.pl
+
+SSH:
+grep Failed /var/log/secure|tail
+
+Apache:
+MaxClients has been renamed MaxRequestWorkers in Apache 2.4
+
+tail -f /usr/local/apache/logs/error_log &amp;
+service httpd start
+
+MaxClients Reached:
+
+grep &quot;`date|awk '{print $1&quot; &quot;$2&quot; &quot;$3}'`&quot; /usr/local/apache/logs/error_log|grep -c MaxC
+
+domlogs:</rich_text></node><node name="Monbot" prog_lang="custom-colors" readonly="False" tags="" unique_id="22"><rich_text>Monbot response: Available User Commands: 
+   
+upcoming -- list all upcoming events. 
+claim &lt;id&gt; -- allows you to claim an event that is in the queue.
+ignore &lt;hostname&gt; &lt;hours&gt; -- this will ignore storm alerts for &lt;hostname&gt; for &lt;hours&gt; hours.
+ignore clear &lt;hostname&gt; -- this will stop ignoring storm alerts for the specified server.
+ignore clear all -- this will stop ignoring storm alerts for all previously ignored servers.
+ignore list -- this will list what server's storm alerts are being ignored and for for how long.
+vps -- gives you the text to use for a vps event. 
+shared -- gives you the text to use for a shared server event.
+ipranges -- gives you a list of interal ips.
+e1000e -- tells you how to fix the e1000e error on Cent6.
+join -- use this if monbot is running but not in monitoring to rejoin.</rich_text></node><node name="MySQL" prog_lang="custom-colors" readonly="False" tags="" unique_id="15"><rich_text style="italic" weight="heavy">CHANGE PW:</rich_text><rich_text>
+   
+   SET PASSWORD FOR 'root'@'127.0.0.1' = PASSWORD('new-password-here');</rich_text><node name="MySQL Opts" prog_lang="custom-colors" readonly="False" tags="" unique_id="16"><rich_text>For Legacy VPS, Vservers, and very old hardware </rich_text><rich_text weight="heavy">Warning:</rich_text><rich_text> For Servers with MySQL 5.0 and lower, the following changes will need to be made:Add 'safe-show-database'
+Change 'skip-external-locking' -&gt; 'skip-locking'
+
+ 
+
+ 
+</rich_text><rich_text weight="heavy">Info:</rich_text><rich_text>  Please visit this page for update set of my.cnf settings: </rich_text><rich_text link="webs http://nofollow">https://wiki.int.liquidweb.com/articles/MySQL_Optimization#my.cnf_template</rich_text><rich_text> 
+ 
+[mysqld]
+max_connections = 50
+skip-external-locking
+key_buffer = 16M
+open_files_limit = 8190
+table_cache = 3184
+thread_cache = 2
+sort_buffer_size = 512K
+net_buffer_length = 8K
+read_buffer_size = 256K
+read_rnd_buffer_size = 512K
+myisam_sort_buffer_size = 8M
+query_cache_size = 8M
+max_heap_table_size = 32M
+tmp_table_size = 32M
+wait_timeout = 30
+interactive_timeout = 150
+
+[mysqldump]
+quick
+max_allowed_packet = 16M
+
+[mysql]
+no-auto-rehash
+
+[isamchk]
+key_buffer = 16M
+sort_buffer_size = 10M
+read_buffer = 2M
+write_buffer = 2M
+
+[myisamchk]
+key_buffer = 16M
+sort_buffer_size = 10M
+read_buffer = 2M
+write_buffer = 2M
+  
+   
+   For Dedicated and Storm Servers   1 &amp; 2G RAM </rich_text><rich_text weight="heavy">Warning:</rich_text><rich_text> For Servers with MySQL 5.1 and higher, the following changes will need to be made:Remove 'safe-show-database'
+Change 'skip-locking' -&gt; 'skip-external-locking'
+</rich_text><rich_text weight="heavy">#####---1G RAM---#####</rich_text><rich_text> 
+
+
+max_connections = 50
+max_allowed_packet = 1M
+safe-show-database
+skip-locking
+key_buffer = 64M
+innodb_buffer_pool_size = 64M 
+open_files_limit = 8190
+table_cache = 3184
+myisam_sort_buffer_size = 64M
+query_cache_size = 32M
+max_heap_table_size = 48M
+tmp_table_size = 48M
+thread_cache_size = 8
+wait_timeout = 30
+interactive_timeout = 150
+
+[mysqldump]
+quick
+max_allowed_packet = 16M
+
+[mysql]
+no-auto-rehash
+
+[isamchk]
+key_buffer = 64M
+sort_buffer_size = 48M
+read_buffer = 2M
+write_buffer = 2M
+
+[myisamchk]
+key_buffer = 64M
+sort_buffer_size = 48M
+read_buffer = 2M
+write_buffer = 2M
+</rich_text><rich_text weight="heavy">#####---2G RAM---#####</rich_text><rich_text> 
+
+ 
+</rich_text><rich_text weight="heavy">Info:</rich_text><rich_text>  Please visit this page for update set of my.cnf settings: </rich_text><rich_text link="webs http://nofollow">https://wiki.int.liquidweb.com/articles/MySQL_Optimization#my.cnf_template</rich_text><rich_text> [mysqld]
+max_connections = 50
+safe-show-database
+skip-locking
+key_buffer = 128M
+innodb_buffer_pool_size = 128M
+open_files_limit = 8190
+table_cache = 3184
+myisam_sort_buffer_size = 64M
+query_cache_size = 32M
+max_heap_table_size = 48M
+tmp_table_size = 48M
+thread_cache_size = 8
+wait_timeout = 30
+interactive_timeout = 300
+
+[mysqldump]
+quick
+max_allowed_packet = 16M
+
+[mysql]
+no-auto-rehash
+
+[isamchk]
+key_buffer = 96M
+sort_buffer_size = 64M
+read_buffer = 2M
+write_buffer = 2M
+
+[myisamchk]
+key_buffer = 96M
+sort_buffer_size = 64M
+read_buffer = 2M
+write_buffer = 2M
+   
+   
+  3-8G RAM </rich_text><rich_text weight="heavy">Warning:</rich_text><rich_text> For Servers with MySQL 5.1 and higher, the following changes will need to be made:Remove 'safe-show-database'
+Change 'skip-locking' -&gt; 'skip-external-locking'
+
+ 
+
+ 
+</rich_text><rich_text weight="heavy">Info:</rich_text><rich_text>  Please visit this page for update set of my.cnf settings: </rich_text><rich_text link="webs http://nofollow">https://wiki.int.liquidweb.com/articles/MySQL_Optimization#my.cnf_template</rich_text><rich_text> [mysqld]
+max_connections = 64
+safe-show-database
+skip-locking
+key_buffer = 256M
+innodb_buffer_pool_size = 256M
+open_files_limit = 8190
+table_cache = 3184
+myisam_sort_buffer_size = 64M
+query_cache_size = 32M
+max_heap_table_size = 64M
+tmp_table_size = 64M
+thread_cache_size = 16
+wait_timeout = 45
+interactive_timeout = 600
+
+
+[mysqldump]
+quick
+max_allowed_packet = 16M
+
+[mysql]
+no-auto-rehash
+
+[isamchk]
+key_buffer = 128M
+sort_buffer_size = 64M
+read_buffer = 2M
+write_buffer = 2M
+
+[myisamchk]
+key_buffer = 128M
+sort_buffer_size = 64M
+read_buffer = 2M
+write_buffer = 2M
+  
+   
+   More than 8G RAM </rich_text><rich_text weight="heavy">Warning:</rich_text><rich_text> For Servers with MySQL 5.1 and higher, the following changes will need to be made:Remove 'safe-show-database'
+Change 'skip-locking' -&gt; 'skip-external-locking'
+
+ 
+
+ 
+</rich_text><rich_text weight="heavy">Info:</rich_text><rich_text>  Please visit this page for update set of my.cnf settings: </rich_text><rich_text link="webs http://nofollow">https://wiki.int.liquidweb.com/articles/MySQL_Optimization#my.cnf_template</rich_text><rich_text> [mysqld]
+max_connections = 128
+safe-show-database
+skip-locking
+key_buffer = 512M
+innodb_buffer_pool_size = 1024M
+open_files_limit = 8190
+table_cache = 3184
+myisam_sort_buffer_size = 64M
+query_cache_size = 32M
+max_heap_table_size = 64M
+tmp_table_size = 64M
+thread_cache_size = 32
+wait_timeout = 120
+connect_timeout = 10
+interactive_timeout = 1200
+
+
+[mysqldump]
+quick
+max_allowed_packet = 16M
+
+[mysql]
+no-auto-rehash
+
+[isamchk]
+key_buffer = 256M
+sort_buffer_size = 128M
+read_buffer = 2M
+write_buffer = 2M
+
+[mysqlhotcopy]
+interactive-timeout
+</rich_text></node></node><node name="POP3" prog_lang="custom-colors" readonly="False" tags="" unique_id="14"><rich_text>/etc/init.d/courier-authlib restart
+   
+/etc/init.d/courier-imap restart
+   
+/etc/init.d/dovecot restart
+
+/usr/local/cpanel/scripts/delpop</rich_text></node><node name="DNS" prog_lang="custom-colors" readonly="False" tags="" unique_id="6"><rich_text>
+  </rich_text><rich_text weight="heavy">WHEN:</rich_text><rich_text>
+    root@temp [~]# /etc/init.d/named status
+WARNING: key file (/etc/rndc.key) exists, but using default configuration file (/etc/rndc.conf)
+rndc: connect failed: 127.0.0.1#953: connection refused
+named is stopped
+root@temp [~]# /etc/init.d/named start
+Starting named:                                            [FAILED]
+
+   </rich_text><rich_text weight="heavy">USE:</rich_text><rich_text>
+/scripts/rebuildnamedconf***  deprecated
+/scripts/fixndc 
+   
+   or
+   
+/usr/local/cpanel/scripts/rebuilddnsconfig
+   
+   </rich_text><rich_text weight="heavy">IF FAILS:</rich_text><rich_text>
+   if:
+warn [fixrndc] /usr/sbin/rndc status failed: WARNING: key file (/etc/rndc.key) exists, but using default configuration file (/etc/rndc.conf)rndc: connect failed: 127.0.0.1#953: connection refused
+   
+   yum reinstall bind
+   
+   
+</rich_text><rich_text style="italic" weight="heavy">   COUNT OF DENIED HITS IN MESSAGES</rich_text><rich_text>
+   grep named /var/log/messages|grep denied |awk '{print $7}'|cut -d &quot;#&quot; -f 1|sort |uniq -c |sort -rn|head
+
+
+</rich_text></node><node name="Windows" prog_lang="custom-colors" readonly="False" tags="" unique_id="5"><rich_text underline="single" weight="heavy">RDP</rich_text><rich_text>   
+
+!/bin/bash
+xfreerdp \
+-u $(zenity --title &quot;FreeRDP - Username&quot; --width 250 --text &quot;Username:&quot; --entry-text &quot;administrator&quot; --entry 2&gt;/dev/null) \
+-p $(zenity --title &quot;FreeRDP - Password&quot; --width 250 --text &quot;Password:&quot; --entry --hide-text 2&gt;/dev/null) \
+--ignore-certificate \
+--plugin cliprdr \
+--plugin rdpdr --data disk:RdpDisk:$(zenity --title &quot;FreeRDP - Drive Mapping&quot; --width 300 --text &quot;Local folder to map remotely:\r  \(leave blank for none\)&quot; --entry 2&gt;/dev/null) -- \
+$(zenity --title &quot;FreeRDP - Server&quot; --width 250 --text &quot;Hostname or IP:&quot; --entry 2&gt;/dev/null) &gt;/dev/null &amp;
+______________________________________________________________________________________________________________?
+   or
+   
+xfreerdp -g 1200x800 -u Administrator $IP 
+ 
+   
+</rich_text><rich_text style="italic" weight="heavy">Start RDP Services From CMD:</rich_text><rich_text>
+     net start TermService</rich_text></node><node name="Post Reboot" prog_lang="custom-colors" readonly="False" tags="" unique_id="10"><rich_text>LOOK FOR POSTS
+   
+   ls -lah /usr/local/apache/domlogs/|grep -v -E &quot;log|.gz&quot;|grep ^-|awk '{print $9}'|xargs -i tail -2500 /usr/local/apache/domlogs/{}|grep POST |awk '{print $11}'|sort |uniq -c |sort -rn|head</rich_text></node><node name="Torrent Attack" prog_lang="custom-colors" readonly="False" tags="torrent attack dos" unique_id="29"><rich_text>Add the following to  /usr/local/apache/conf/modsec2.user.conf
+
+SecRule REQUEST_URI &quot;announce.php&quot; &quot;id:20000045,chain&quot;
+SecRule &amp;HTTP_REFERER &quot;@eq 0&quot;</rich_text></node><node name="FW Spam" prog_lang="custom-colors" readonly="False" tags="" unique_id="11"><rich_text>its when the kernel firewall is busy dropping traffic for some reason or the other, and syslogd drops the messages on the console, rendering it unresponsive and useless 
+The server is generally crashed by that point
+   
+   
+   dmesg -n3</rich_text></node><node name="Joomla" prog_lang="custom-colors" readonly="False" tags="joomla" unique_id="13"><rich_text>Block Ability To Post Comments:
+   
+   ErrorDocument 403 Default
+RewriteEngine On
+RewriteCond %{REQUEST_METHOD} =POST
+RewriteCond %{THE_REQUEST} ([^.]+)/component/k2/ [NC]
+RewriteRule .* - [F]
+   
+   (11:38:07 PM) wpiggott: Though this might also block their ability to edit that particular component - but I saw no alternative
+   ___________________________________________________________________________________________________________
+   </rich_text></node><node name="Guardian" prog_lang="custom-colors" readonly="False" tags="" unique_id="17"><rich_text>bash &lt;(curl -qs http://layer3.liquidweb.com/monitoring/guardian.sh)
+   
+   
+   r1soft-report.sh   creates a tarball in /tmp of various guardian error reports
+   
+   
+   
+/etc/init.d/cdp-agent status
+   
+   
+   
+   ioctl error doStartBackup occurring, reset the backup driver and restarted guardian backup. Currently running at 2%  gb.host.jobokoserver.com
+   
+   
+   
+   
+   
+   (11:01:51 PM) jjackson: rrobitaille: hcp --version
+hcp driver module: 4.6.0 build: 15 -- bad
+hcp driver module: 4.4.0 build: 18929 -- good
+fixt:
+serverbackup-setup --get-module --custom-version 4.4.0-18929
+   
+   
+echo &quot;BUAgent / CDP Agent status:&quot;; /etc/init.d/buagent status 2&gt;/dev/null || /etc/init.d/cdp-agent status 2&gt;/dev/null; echo ;echo &quot;Current 10.x IPs on server&quot;; ifconfig | grep -B1 -A4 &quot;inet addr:10&quot;; echo; echo &quot;Currently set Network Routes&quot;; cat /etc/sysconfig/network-scripts/route-eth*; echo; echo &quot;Operating System and Version&quot;; cat /etc/redhat-release 2&gt;/dev/null || cat /etc/os-release 2&gt;/dev/null; echo; echo &quot;Kernel Version&quot;; uname -r; echo; echo &quot;kernel-headers Version&quot;; dpkg -l 2&gt;/dev/null | grep linux-headers 2&gt;/dev/null || rpm -qa kernel-headers 2&gt;/dev/null; echo; echo &quot;Backup / CDP Agent Version&quot;; dpkg -l 2&gt;/dev/null | grep r1soft 2&gt;/dev/null || dpkg -l 2&gt;/dev/null| grep serverbackup 2&gt;/dev/null || rpm -qa | grep r1soft 2&gt;/dev/null || rpm -qa | grep serverbackup; echo; echo &quot;HCP Module Version&quot;; hcp --version | tail -1
+</rich_text></node><node name="Radar" prog_lang="custom-colors" readonly="False" tags="" unique_id="18"><rich_text>(12:09:18 AM) Nathaniel Bailey: there is only like 1 or 2 things I know are not in the wiki …   1 is specifically for windows.. if the sonarpush update fails. .. its generally that windist needs to be re-installed and windows does that for us :) … but I don't have a screenshot of the error. it happens so rarelly 
+
+(12:09:43 AM) Nathaniel Bailey: windows is generally a registry entry failure though hehe
+
+(12:10:39 AM) Nathaniel Bailey: also … for now… you can leave any windows enterprise servers.. I'll fix those.. because the IP is sometimes a 172 and not the server Ip and you have to confirm a few things :) 
+
+</rich_text><rich_text foreground="#cc0000">(01:32:57 AM) Nathaniel Bailey: </rich_text><rich_text foreground="#000000">oh .. About windows and sonar….. Do NOT use the windows sonar invalid PW pre-canned.  Because of the registry and all the re-install we have to do its better to not use this because the customer just running net stop net start will NOT work 99% of the time. … just write up a ticket or just use the regular invalid PW for windows canned and just use subject &quot;Radar Down&quot;.</rich_text><rich_text>
+
+   ___________________________
+   
+   </rich_text><rich_text style="italic" weight="heavy">DEBUG:</rich_text><rich_text>
+   /usr/local/lp/apps/sonarpush/sonarpush --debug
+   
+   </rich_text><rich_text style="italic" weight="heavy">CHECK IF SONAR INSTALLED:</rich_text><rich_text>
+   
+   rpm -qa sonarpush
+
+   
+   
+[root@secure ~]# yum install sonarpush
+Public key for sonarpush-0.5.236-1.x86_64.rpm is not installed
+   [root@secure ~]# yum install sonarpush --nogpgcheck
+   </rich_text></node><node name="wordpress" prog_lang="custom-colors" readonly="False" tags="" unique_id="19"><rich_text>
+########TICKET NOTE WHEN ADDING THE ABOVE. ######################################
+
+RESET PW
+
+
+    Create file wp.txt with the new password in it (and *nothing* else)
+    tr -d '\r\n' &lt; wp.txt | md5sum | tr -d ' -'
+    rm wp.txt
+
+
+I've also implemented a security measure that will prevent this from happening in the future. I've added the following lines to the .htaccess file of the domain. This will deny access to the wp-login.php file from all IP addresses but the IPs listed. 
+
+define('WP_MEMORY_LIMIT', '96M');
+
+
+&lt;Files wp-login.php&gt;
+   # set up rule order
+   order deny,allow
+   # default deny
+   deny from all
+   # Liquidweb Office Ranges
+   allow from 10.10.4.0/23
+   allow from 10.20.4.0/22
+   allow from 10.20.7.0/24
+   allow from 10.30.4.0/22
+   allow from 10.30.2.0/24
+   allow from 10.30.104.0/24
+   # Add additional IPs for access here
+
+
+
+   errordocument 401 default
+   errordocument 403 default
+   errordocument 404 default
+&lt;/Files&gt;
+
+
+To allow IP addresses to access the wp-login.php simply add the IP address after the line  &quot;# Add additional IPs for access here&quot;  using the format &quot;allow from $IPADDRESS&quot;. Please let us know if you need anything else.
+
+
+#######################################################################3
+
+
+
+
+
+You can use the following to check the amount of attempts to login at each wp-admin page on the server.
+
+grep wp-login.php /usr/local/apache/domlogs/* | grep POST | grep &quot;04/Sep/2013&quot; | cut -d: -f1 | sort| uniq -c | sort -nr | head -25
+
+Modified of above to automatically grab date in proper format and surpress any &quot;Directory Not Found&quot; errors.
+
+grep -s wp-login.php /usr/local/apache/domlogs/* | grep POST | grep &quot;$(date +&quot;%d/%b/%Y&quot;)&quot; | cut -d: -f1 | sort| uniq -c | sort -nr | head -25
+</rich_text></node><node name="Permissions" prog_lang="custom-colors" readonly="False" tags="" unique_id="32"><rich_text>find . -user pianosheet -exec chown silverscreen {} \;</rich_text></node><node name="Mysql" prog_lang="custom-colors" readonly="False" tags="" unique_id="30"><rich_text>SELECT host,user,password FROM user WHERE user LIKE '%$username%' ORDER BY user;</rich_text></node><node name="manual fsck lvm" prog_lang="custom-colors" readonly="False" tags="" unique_id="20"><rich_text>Greetings,
+    
+    Just to preface this instructional email:
+    
+    </rich_text><rich_text weight="heavy">DO NOT FSCK ANY MOUNTED PARTITIONS. EVER.</rich_text><rich_text>
+          
+          Now the good stuff. The wiki on fscking                LVM partitions is a bit confusing, especially if you                have not been called upon to do so, or have not had                someone walk you through it. Jake Vandeventer will be                re-writing the wiki                (</rich_text><rich_text link="webs http://moz-txt-link-freetext">https://wiki.int.liquidweb.com/articles/Instance_LVM#FSCK_instance_LVM_from_parent</rich_text><rich_text>)                tomorrow to mitigate the confusion and make it clearer                to understand.
+                
+                In the meantime, if you find it necessary to fsck a LVM                partition, this is EXACTLY what you do, and nothing                more:
+                
+                1) Gracefully shutdown the instance in question via                billing &gt; provisioning 
+                
+                2) After the instance is down, SSH into the parent
+                
+                3) Create the mappings for the instance partitions:
+                    </rich_text><rich_text style="italic"> kpartx -a -v -p p /dev/LVM/$UID</rich_text><rich_text>
+                
+                </rich_text><rich_text weight="heavy">DO NOT CREATE MOUNT POINTS OR MOUNT THE PARTITIONS -                   IT IS NOT NEEDED FOR A FSCK
+                   
+                 </rich_text><rich_text>4) Open a screen session:
+                     </rich_text><rich_text style="italic">screen -S fsck_$UID
+                   
+                 </rich_text><rich_text>5) Within the screen session, proceed with the fsck:
+                     XEN - </rich_text><rich_text style="italic">fsck -Cvf /dev/mapper/UNIQ_IDp3</rich_text><rich_text>
+                     KVM - </rich_text><rich_text style="italic">fsck -Cvf /dev/mapper/LVM-UNIQ_IDp3
+                   
+                 </rich_text><rich_text>6) When the fsck has completed, exit the screen                session
+                
+                7) Remove the mappings for the instance partitions:
+                     </rich_text><rich_text style="italic">kpartx                               -d -v -p p /dev/LVM/$UID
+                               
+                             </rich_text><rich_text>8) Start the instance normally:
+                                 XEN                                        - </rich_text><rich_text style="italic">xm create                                           /xen/configs/$UID.cfg</rich_text><rich_text>
+                                             KVM - </rich_text><rich_text style="italic">virsh create                                           /xen/configs/$UID.cfg
+                                           
+                                           
+                                         </rich_text><rich_text>That's it, no mounting, no                                        nothing else. The ONLY reason                                        you should need to actually                                        mount instance partitions after                                        creating mappings is if you need                                        to modify GRUB's menu.lst, or do                                        other file modifications. If you                                        have ANY questions, please ask                                        me, a team lead or anyone in                                        sysres for clarification.
+                                        
+                                        Rgds,
+                                        
+                                        rzamites
+                                                          
+   
+   
+   
+   
+   
+   
+   
+   
+   (06:43:40 PM) Douglas Cunningham: https://wiki.int.liquidweb.com/articles/Instance_LVM#FSCK_instance_LVM_from_parent
+(06:43:50 PM) Douglas Cunningham: you need to do the steps prior to that tho
+(06:44:02 PM) Douglas Cunningham: you have to shut the instance down
+(06:44:11 PM) Douglas Cunningham: I will copy the notes I have to you
+(06:44:44 PM) cesch@liquidweb.com/Home: ok sounds good i can do that
+(06:44:49 PM) cesch@liquidweb.com/Home: tyvm
+(06:45:12 PM) Douglas Cunningham: 
+scking vps:
+
+(09:https://hd.int.liquidweb.com/msgs/index.mhtml?id=393175254:21 PM) Kevin Johnson: so, here's basically what I did:
+1) shutdown the instance from provisioning under the subaccount.
+2) ssh and sudo to root on the parent
+3) create a screen session
+4) kpartx -p p -a -v /dev/LVM/&lt;UID &lt;/dev/LVM/&lt;UID&gt;&gt;
+5) e2fsck /dev/mapper/&lt;UID&gt;p3 &lt;/dev/mapper/&lt;UID&gt;p3&gt;
+6) apply fixes requested by e2fsck
+7) repeat 5 &amp; 6 until e2fsck reports clean
+8) kpartx -p p -d -v /dev/LVM/&lt;UID &lt;/dev/LVM/&lt;UID&gt;&gt;
+9) start the instance from the provisioning tab under subaccounts.
+
+
+6:23:01 PM) Kevin Johnson: what commands are you running that you did not get good result?
+(06:23:23 PM) Kevin Johnson: cause /dev/AX9HKU would never exist.
+(06:23:25 PM) Douglas Cunningham: [root@host065 ~]# kpartx -p p -a -v /dev/AX9HKU
+failed to stat() /dev/AX9HKU
+
+^ exactly what you typed to me, do I need to put lvm after dev?
+(06:23:43 PM) Kevin Johnson: hah woops./
+(06:23:50 PM) Kevin Johnson: did not proof read my instructions.
+(06:24:08 PM) Douglas Cunningham: lol
+(06:24:13 PM) Kevin Johnson: kpartx -p p -a -v /dev/LVM/AX9HKU
+(06:24:28 PM) Douglas Cunningham: 5) e2fsck /dev/mapper/&lt;UID&gt;p3 &lt;/dev/mapper/&lt;UID&gt;p3&gt;  &lt; do i need to put a p3 after the uid with no spaces?
+(06:25:31 PM) Kevin Johnson: the kpartx created /dev/mapper/AX9HKUp1 , /dev/mapper/AX9HKUp2 , and /dev/mapper/AX9HKUp3
+(06:25:49 PM) Kevin Johnson: /dev/mapper/AX9HKUp3 is the primary partition with data.
+(06:25:56 PM) Douglas Cunningham: ahh okscking vps:</rich_text></node><node name="misc" prog_lang="custom-colors" readonly="False" tags="" unique_id="12"><rich_text>
+# of CPUs:   
+   cat /proc/cpuinfo | grep processor | wc -l
+   
+ # of domlogs
+   ls /usr/local/apache/domlogs/ | wc -l
+   
+ # of users
+   wc -l /etc/domainusers
+   
+   service listening?
+   netstat -lpn | grep </rich_text><rich_text style="italic">:port</rich_text><rich_text>
+   
+   -------------------------------------------------------------
+   Jankney use most script:
+   
+   exec 3&lt;&amp;1 &amp;&amp; bash &lt;&amp;3 &lt;(curl -sq http://jankitrough.com/stuff/moncheck.sh)
+   --------------------------------------------------------------
+   exec 3&lt;&amp;1 &amp;&amp; bash &lt;&amp;3 &lt;(curl -sq missingno.net/info)
+   
+   
+   
+   JJ  ?
+   ps faux|awk '{print $1}'|grep -v USER|sort|uniq &gt;&gt; ps_user;for i in `cat ps_user`;do ps faux|grep $i|awk '{SUM +=$3}END{print SUM}';done &gt;&gt; ps_cpu;for i in `cat ps_user`;do ps faux|grep $i|awk '{SUM +=$4}END{print SUM}';done &gt;&gt; ps_mem;diff -y ps_user ps_cpu|awk '{print $1&quot; &quot;$3}' &gt; ps_table;diff -y ps_table ps_mem|awk '{print $1&quot; &quot;$2&quot; &quot;$4}' &gt; ps_final_form;(echo -n 'User CPU Memory';echo;cat ps_final_form)&gt; ps_final_form.new;mv ps_final_form{.new,};cat ps_final_form|column -t;rm -i ps_*
+   
+   
+   
+   echo &quot;Detailed Inode usage for: $(pwd)&quot; ; for d in `find -maxdepth 1 -type d |cut -d\/ -f2 |grep -xv . |sort`; do c=$(find $d |wc -l) ; printf &quot;$c\t\t- $d\n&quot; ; done ; printf &quot;Total: \t\t$(find $(pwd) | wc -l)\n&quot;
+   
+   
+   
+   /scripts/restartsrv_queueprocd
+   
+   
+   
+   employeehardware-queue@liquidweb.com</rich_text></node><node name="XMLRPC" prog_lang="custom-colors" readonly="False" tags="" unique_id="26"><rich_text># START XML RPC BLOCKING 
+&lt;Files xmlrpc.php&gt;
+  Order Deny,Allow 
+  Deny from all 
+  errordocument 401 default
+  errordocument 403 default
+  errordocument 404 default
+&lt;/Files&gt; 
+# FINISH XML RPC BLOCKING</rich_text></node><node name="WAT" prog_lang="custom-colors" readonly="False" tags="" unique_id="23"><rich_text>HOST=`hostname`;HTTPD='/usr/local/apache/conf/httpd.conf'; PHP=`php -i | grep php.ini | grep &quot;Configuration&quot; | cut -d &quot;&gt;&quot; -f2 | cut -c 2- | tail -n 1`; MYSQL='/etc/my.cnf'; echo -e &quot;\n=== SERVER STATS ===\n&quot;; echo -e &quot;Host: `hostname`&quot;; echo -e &quot;\n=== Version Info ===\n&quot;; cat /etc/redhat-release; echo -e &quot;&quot;; /usr/local/cpanel/cpanel -V; echo -e &quot;&quot;; /usr/local/apache/bin/httpd -v | grep nix ; echo -e &quot;&quot;; /usr/local/bin/php -v | grep cli; echo -e &quot;&quot;; /usr/bin/mysql -V | cut -d &quot;,&quot; -f1; echo -e &quot;\n=== Current Mail in Queue ===\n&quot;; exim -bpc; echo -e &quot;\n=== Disk Space Usage ===\n&quot;; df -h; echo -e &quot;\n=== Current Memory Usage ===\n&quot;; free -m; echo -e &quot;\n=== Number of Processors ===\n&quot;; grep -c proc /proc/cpuinfo; echo -e &quot;\n=== PHP Info ===\n&quot;; grep &quot;memory_limit&quot; $PHP; grep &quot;max_execution_time&quot; $PHP; grep &quot;max_input_time&quot; $PHP; grep &quot;post_max_size&quot; $PHP; grep &quot;upload_max_filesize&quot; $PHP; grep &quot;max_file_uploads&quot; $PHP; echo -e &quot;\n=== PHP Handler ===\n&quot;; /usr/local/cpanel/bin/rebuild_phpconf --current; echo -e &quot;\n=== Number of PHP Processes ===\n&quot;; ps faux | grep php -c | grep -v grep; echo -e &quot;\n=== Number of Apache Processes ===\n&quot;; ps faux | grep httpd -c | grep -v grep; echo -e &quot;\n=== Apache Configuation ===\n&quot;; /etc/init.d/httpd -V | grep MPM; grep &quot;KeepAlive &quot; $HTTPD; egrep 'MaxClients|KeepAlive|MaxRequestsPerChild|Timeout|Servers|Threads|ServerLimit' $HTTPD; echo -e &quot;\n=== MaxClients Hits ===\n&quot;; grep MaxClients /usr/local/apache/logs/error_log |tail; echo -e &quot;\n=== Graceful Restarts ===\n&quot;; grep Graceful /usr/local/apache/logs/error_log |tail; echo -e &quot;\n=== Number of SYN connections ===\n&quot;; netstat -nap | grep SYN | wc -l; echo -e &quot;\n=== Top 10 SYN Flood Conections ===\n&quot;; netstat -tn 2&gt;/dev/null | grep SYN | awk '{print $5}' | cut -f1 -d: | sort | uniq -c | sort -rn | head; echo -e &quot;\n=== Top 10 connections to apache ===\n&quot;; netstat -tn 2&gt;/dev/null | grep :80 | awk '{print $5}' | cut -f1 -d: | sort | uniq -c | sort -rn | head; echo -e &quot;\n=== Port 80 Connections ===\n&quot;; netstat -tn 2&gt;/dev/null | grep :80 | wc -l; echo -e &quot;\n=== Number of IPs Connected ===\n&quot;; netstat -tn 2&gt;/dev/null | grep :80 | awk '{print $5}' | cut -f1 -d: | sort | uniq -c | sort -rn | wc -l; echo -e &quot;\n=== WordPress Brute Force ===\n&quot;; grep -s wp-login.php /usr/local/apache/domlogs/* | grep POST | grep &quot;$(date +&quot;%d/%b/%Y&quot;)&quot; | cut -d: -f1 | sort| uniq -c | sort -nr | head; echo -e &quot;\n=== Number of MySQL Connections ===\n&quot;; netstat -nap | grep -i sql.sock | wc -l; echo -e &quot;\n=== MySQL Database queries ===\n&quot;; mysqladmin proc stat;  echo -e &quot;\n=== MySQL Databases ===\n&quot;; du --max-depth=1 /var/lib/mysql | sort -nr | cut -f2 | xargs du -sh 2&gt;/dev/null | head | cut -d &quot;/&quot; -f1,5;  echo -e &quot;\n=== MySQL Errors ===\n&quot;; cat /var/lib/mysql/${HOST}.err | tail; echo -e &quot;\n=== MySQL Connections ===\n&quot;; mysql -e 'show status;' |grep connect; echo -e &quot;\n=== MySQL Configuration ===\n&quot;; egrep 'max_connections|max_heap_table_size|tmp_table_size|query_cache_size|timeout|table_cache|open_files|thread|innodb' $MYSQL;</rich_text></node></cherrytree>
