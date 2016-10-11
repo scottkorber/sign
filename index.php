@@ -141,7 +141,7 @@ foreach($_POST as $file_to_delete => $value){
 echo '<table border="0" cellpadding="0">';
 echo '<form action="'.$self.'" method="post">';
 //var_dump(glob("*"));
-$files_to_exclude = '".htaccess\|index.php\|index1.php\|index.php~\|index1.php~\|update_sign.sh"';
+$files_to_exclude = '".htaccess\|index.php\|index1.php\|index.php~\|index1.php~\|update_sign.sh\|README.md"';
 $list_of_files_command = 'find . -maxdepth 1 -type f |cut -c 3- |grep -v '.$files_to_exclude;
 $list_of_files = shell_exec($list_of_files_command);
 $final_list=explode("\n",$list_of_files);
