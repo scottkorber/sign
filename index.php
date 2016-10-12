@@ -116,10 +116,11 @@ echo '
 $server = $_SERVER['SERVER_NAME'];
 $server = "http://".$server."/";
 $justfilename = $_FILES['fileToUpload']['name'];
-$uploaddir = './';
+$uploaddir = 'slides/';
 $archivedir = 'archive/'.$justfilename;
 $uploadfile = $uploaddir . basename($_FILES['fileToUpload']['name']);
-
+$full_path_to_slides = getcwd();
+$full_path_to_slides = $full_path_to_slides.'/'.$uploaddir;
 //echo $archivedir;
 //echo $uploadfile;
 
@@ -131,18 +132,21 @@ copy($uploadfile, $archivedir);
 
 foreach($_POST as $file_to_delete => $value){
 	$file_to_delete = str_replace('_', '.', $file_to_delete); //Replaces the _ with . from the $POST
-   
+               
+            //echo "The file ".$file_to_delete." would be deleted";
+            $file_to_delete = $full_path_to_slides.$file_to_delete;
             //echo "The file ".$file_to_delete." would be deleted";
             $command = "/bin/rm $file_to_delete";
             $command_output = shell_exec($command);
-            //echo $command_output;
+            echo $command_output;
         }
 
 echo '<table border="0" cellpadding="0">';
 echo '<form action="'.$self.'" method="post">';
 //var_dump(glob("*"));
 $files_to_exclude = '".htaccess\|index.php\|index1.php\|index.php~\|index1.php~\|update_sign.sh\|README.md"';
-$list_of_files_command = 'find . -maxdepth 1 -type f |cut -c 3- |grep -v '.$files_to_exclude;
+$show_file = "|awk -F/ '{print \$2}'";
+$list_of_files_command = "find slides/ -maxdepth 1 -type f |grep -v ".$files_to_exclude." |awk -F/ '{print \$2}'";
 $list_of_files = shell_exec($list_of_files_command);
 $final_list=explode("\n",$list_of_files);
 array_pop($final_list);
@@ -154,7 +158,7 @@ foreach ($final_list as $filename) {
 	 //ob_flush();
 	 //flush();
         echo '<tr><td align="left">';
-        echo '<input type="radio" name="slideshow" value="'.$filename.'"><a href="'.$server.$filename.'"> '.$filename.'</a><br>';
+        echo '<input type="radio" name="slideshow" value="'.$filename.'"><a href="'.$server.$uploaddir.$filename.'"> '.$filename.'</a><br>';
         echo '</td><td>';      
         echo '<input class="button" type="submit" value="X" name="'.$filename.'">';
         echo "</td></tr>";
