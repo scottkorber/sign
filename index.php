@@ -93,13 +93,13 @@ td {
 $self = $_SERVER['PHP_SELF'];
 echo '
 <form class="uploadform" action="'.$self.'" method="post" enctype="multipart/form-data">
-    Select image to upload:
+    Select slideshow to upload:
     <input type="file" name="fileToUpload" id="fileToUpload">   
     <!--
     <input hidden type="file" name="fileToUpload" id="fileToUpload"\>
     <label class="button" for="fileToUpload">Choose a file</label>
     -->    
-    <input class="button" type="submit" value="Upload Image" name="submit">
+    <input class="button" type="submit" value="Upload Slideshow" name="submit">
 </form>
 
 
