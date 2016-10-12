@@ -175,9 +175,9 @@ echo '<br><br>';
 if ($_POST['slideshow']){
     $slidshow = $_POST['slideshow'];
     //echo $slidshow;
-    $command = "./update_sign.sh $slidshow";
+    $command = "./update_sign.sh $full_path_to_slides$slidshow";
     $command_output = shell_exec($command);
-    //echo $command;
+    echo $command;
     echo $command_output;
     
 }    
