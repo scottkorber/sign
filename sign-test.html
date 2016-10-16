@@ -1,0 +1,56 @@
+<html>
+
+<body>
+<head>
+  <link rel="stylesheet" href="style.css" type="text/css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+</head>
+
+<script>
+//run php script to get current button status and set classes accordingly
+function toggleGreenRed() {
+        //alert("Button was clicked");
+        $(this).toggleClass('greenbutton redbutton');
+        //run php script to update the database.
+}
+
+function sendMessage() {
+        //alert('MEssage sent');
+   var message = $("#message").val();
+        $(".message_output td").html(message);
+        if ($(this).val() == "Clear") {
+     var message = "";
+     $("#message").val("");
+        }
+	$(".message_output td").html(message);
+        // run php script to update the database message.
+}
+
+$(function() {
+
+     $(".greenbutton").click(toggleGreenRed);
+
+     $("#toggle_vocals").click(function() {
+        $("#vocals_buttons").toggle(500);
+     })
+     $("#toggle_music").click(function() {
+        $("#music_buttons").toggle(500);
+     })
+     $("#message_button").click(sendMessage);
+
+     $("#message_reset").click(sendMessage);
+
+     $("#refresh").click(function() {
+     location.reload();
+     })
+
+});
+
+
+</script>
+
+
+
+
+</body>
+</html>
