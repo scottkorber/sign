@@ -193,6 +193,9 @@ echo '
 
 ';
 
+//Imagemagic command to grab top corner of the screen 
+// import -w root -crop 320x100+0+0 +repage /home/scott/Pictures/TEST/TESTING.png
+
 ?>
 
 
